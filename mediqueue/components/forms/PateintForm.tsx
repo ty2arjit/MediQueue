@@ -1,25 +1,25 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { Button } from "@/components/ui/button"
-import { Form } from "@/components/ui/form"
-import CustomFormField from "@/components/CustomFormField"
-export enum  FormFieldType {
-  INPUT = 'input',
-  TEXTAREA = 'textarea',
-  PHONE_INPUT = 'phoneInput',
-  CHECKBOX = 'checkbox',
-  DATE_PICKER = 'datePicker',
-  SELECT = 'select',
-  SKELETON = 'skeleton',
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
+import CustomFormField from "@/components/CustomFormField";
+export enum FormFieldType {
+  INPUT = "input",
+  TEXTAREA = "textarea",
+  PHONE_INPUT = "phoneInput",
+  CHECKBOX = "checkbox",
+  DATE_PICKER = "datePicker",
+  SELECT = "select",
+  SKELETON = "skeleton",
 }
 const formSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
-})
+});
 
 export function PatientForm() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -27,10 +27,10 @@ export function PatientForm() {
     defaultValues: {
       username: "",
     },
-  })
+  });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    console.log(values);
   }
   return (
     <Form {...form}>
@@ -42,8 +42,8 @@ export function PatientForm() {
           </p>
         </section>
 
-        <CustomFormField 
-          fieldType = {FormFieldType.INPUT}
+        <CustomFormField
+          fieldType={FormFieldType.INPUT}
           control={form.control}
           name="name"
           label="Full name"
@@ -51,9 +51,27 @@ export function PatientForm() {
           iconSrc="/assets/icons/user.svg"
           iconAlt="user"
         />
-        
+
+        <CustomFormField
+          fieldType={FormFieldType.INPUT}
+          control={form.control}
+          name="email"
+          label="Email"
+          placeholder="ty2arjit@gmail.com"
+          iconSrc="/assets/icons/email.svg"
+          iconAlt="email"
+        />
+
+        <CustomFormField
+          fieldType={FormFieldType.PHONE_INPUT}
+          control={form.control}
+          name="Phone"
+          label="Phone number"
+          placeholder="8810811756"
+        />
+
         <Button type="submit">Submit</Button>
       </form>
     </Form>
-  )
+  );
 }
