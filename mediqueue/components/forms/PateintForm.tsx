@@ -4,11 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import CustomFormField from "@/components/CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { UserFormValidation } from "@/lib/validation";
+import { createUser } from "@/lib/actions/patient.actions";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -22,6 +24,7 @@ export enum FormFieldType {
 
 
 export function PatientForm() {
+  const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,8 +37,21 @@ export function PatientForm() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof UserFormValidation>) {
-    
+  async function onSubmit({ name, email, phone }: z.infer<typeof UserFormValidation>) {
+    setIsLoading(true);
+
+    try {
+      const userData = { name, email, phone }
+
+      const user = await createUser(userData);
+
+      if (user) {
+        router.push(`/patients/${user.$id}/register`)
+      }
+    }
+    catch ( error ) {
+      console.log("Error submitting form: ", error);
+    }
   }
   return (
     <Form {...form}>
@@ -70,7 +86,7 @@ export function PatientForm() {
         <CustomFormField
           fieldType={FormFieldType.PHONE_INPUT}
           control={form.control}
-          name="Phone"
+          name="phone"
           label="Phone number"
           placeholder="8810811756"
         />
