@@ -89,7 +89,15 @@
 
   /* ---- Forms ---- */
   .radio-group {
-    @apply flex h-full flex-1 items-center gap-2 rounded-md border border-dashed border-dark-500 bg-dark-400 p-3;
+    @apply flex items-center gap-2 rounded-md border border-dashed border-dark-500 bg-dark-400 px-3 py-2;
+  }
+  .radio-group button[data-state="checked"] {
+    background-color: #24ae7c;
+    border-color: #24ae7c;
+  }
+  
+  .radio-group button[data-state="unchecked"] {
+    background-color: transparent;
   }
 
   .checkbox-label {
