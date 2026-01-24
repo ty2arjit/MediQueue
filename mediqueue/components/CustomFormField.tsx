@@ -20,6 +20,14 @@ import { FormFieldType } from "./forms/PateintForm";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { date } from "zod";
+import {
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+  SelectLabel,
+  SelectGroup
+} from "@radix-ui/react-select";
+import { Textarea } from "./ui/textarea";
 
 interface CustomProps {
   control: Control<any>;
@@ -37,7 +45,15 @@ interface CustomProps {
 }
 
 const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
-  const { fieldType, iconSrc, iconAlt, placeholder, showTimeSelect, dateFormat, renderSkeleton } = props;
+  const {
+    fieldType,
+    iconSrc,
+    iconAlt,
+    placeholder,
+    showTimeSelect,
+    dateFormat,
+    renderSkeleton,
+  } = props;
 
   switch (fieldType) {
     case FormFieldType.INPUT:
@@ -62,6 +78,19 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
         </div>
       );
 
+    case FormFieldType.TEXTAREA:
+      return (
+        <FormControl>
+        <Textarea
+          placeholder={placeholder}
+          {...field}
+          className="shad-textarea"
+          disabled={props.disabled}
+        >
+        </Textarea>
+      </FormControl>
+      );
+
     case FormFieldType.PHONE_INPUT:
       return (
         <FormControl>
@@ -78,53 +107,50 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
       );
 
     case FormFieldType.DATE_PICKER:
-        return (
-          <div className="flex items-center rounded-md border border-dark-500 bg-dark-400">
-            
-            <Image
-              src="/assets/icons/calendar.svg"
-              height={24}
-              width={24}
-              alt="calendar"
-              className="ml-2 shrink-0"
-            />
-      
-            <FormControl className="flex-1">
-              <div className="w-full">
-                <DatePicker
-                  selected={field.value}
-                  onChange={(date) => field.onChange(date)}
-                  dateFormat={dateFormat ?? "MM/dd/yyyy"}
-                  showTimeSelect={showTimeSelect ?? false}
-                  timeInputLabel="Time:"
-                  wrapperClassName="w-full"
-                  className="w-full border-0 bg-dark-400 focus:ring-0 focus:outline-none px-3 py-2"
-                />
-              </div>
-            </FormControl>
-      
-          </div>
-        );
-    
+      return (
+        <div className="flex items-center rounded-md border border-dark-500 bg-dark-400">
+          <Image
+            src="/assets/icons/calendar.svg"
+            height={24}
+            width={24}
+            alt="calendar"
+            className="ml-2 shrink-0"
+          />
+
+          <FormControl className="flex-1">
+            <div className="w-full">
+              <DatePicker
+                selected={field.value}
+                onChange={(date) => field.onChange(date)}
+                dateFormat={dateFormat ?? "MM/dd/yyyy"}
+                showTimeSelect={showTimeSelect ?? false}
+                timeInputLabel="Time:"
+                wrapperClassName="w-full"
+                className="w-full border-0 bg-dark-400 focus:ring-0 focus:outline-none px-3 py-2"
+              />
+            </div>
+          </FormControl>
+        </div>
+      );
+
     case FormFieldType.SELECT:
       return (
         <FormControl>
-          <Select
-          onValueChange={field.change}
-          defaultValue={field.value}
-          >
-
+          <Select onValueChange={field.onChange} value={field.value}>
+              <SelectTrigger className="shad-select-trigger">
+                <SelectValue placeholder={props.placeholder} />
+              </SelectTrigger>
+            <SelectContent className="shad-select-content">
+              {props.children}
+            </SelectContent>
           </Select>
         </FormControl>
-      )
+      );
     case FormFieldType.SKELETON:
-      return (
-        props.renderSkeleton ? props.renderSkeleton(field) : null
-      ); 
+      return props.renderSkeleton ? props.renderSkeleton(field) : null;
 
     default:
-        null;
-  
+      null;
   }
 };
 const CustomFormField = (props: CustomProps) => {
