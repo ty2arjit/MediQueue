@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
 import {
   Form,
   FormControl,
@@ -104,7 +105,18 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
       
           </div>
         );
-  
+    
+    case FormFieldType.SELECT:
+      return (
+        <FormControl>
+          <Select
+          onValueChange={field.change}
+          defaultValue={field.value}
+          >
+
+          </Select>
+        </FormControl>
+      )
     case FormFieldType.SKELETON:
       return (
         props.renderSkeleton ? props.renderSkeleton(field) : null
