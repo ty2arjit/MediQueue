@@ -157,6 +157,14 @@
   .shad-otp-slot {
     @apply text-36-bold flex justify-center rounded-lg border border-dark-500 size-16 !important;
   }
+  .shad-select-trigger {
+    @apply flex h-11 w-full items-center justify-between rounded-md border border-dark-500 bg-dark-400 px-3 text-emerald-50 focus:outline-none focus:ring-0;
+  }
+  
+  .shad-select-content {
+    @apply rounded-md border border-dark-500 bg-dark-400 text-emerald-50 shadow-lg;
+  }
+  
 }
 
 /* =========================
