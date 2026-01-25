@@ -28,6 +28,7 @@ import {
   SelectGroup
 } from "@radix-ui/react-select";
 import { Textarea } from "./ui/textarea";
+import { Checkbox } from "@radix-ui/react-checkbox";
 
 interface CustomProps {
   control: Control<any>;
@@ -151,12 +152,22 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
       return (
         <FormControl>
           <div
-          className="flex items-center gap-4"
+          className="flex items-center gap-4 text-dark-700"
           >
-
+            <Checkbox
+            id={props.name}
+            checked={field.value}
+            onCheckedChange={field.onChange}
+            ></Checkbox>
+            <label
+            htmlFor={props.name}
+            className="checkbox-label text-dark-700"
+            >
+              {props.label}
+            </label>
           </div>
         </FormControl>
-      )
+      );
     case FormFieldType.SKELETON:
       return props.renderSkeleton ? props.renderSkeleton(field) : null;
 
