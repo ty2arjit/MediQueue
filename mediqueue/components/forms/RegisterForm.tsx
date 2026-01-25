@@ -13,10 +13,11 @@ import { UserFormValidation } from "@/lib/validation";
 import { createUser } from "@/lib/actions/patient.actions";
 import { FormFieldType } from "./PateintForm";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
-import { Doctors, GenderOptions } from "@/constants";
+import { Doctors, GenderOptions, IdentificationTypes } from "@/constants";
 import { Label } from "@radix-ui/react-label";
 import { SelectGroup, SelectItem } from "@radix-ui/react-select";
 import Image from "next/image";
+import FileUploader from "../FileUploader";
 
 
 export function RegisterForm({ user }: { user: User }) {
@@ -265,8 +266,82 @@ export function RegisterForm({ user }: { user: User }) {
           />
         </div>
 
-       
+        <section className="space-y-6 text-dark-700">
+          <div className="mb-9 space-y-1">
+            <h2 className="sub-header">Identification and Verification</h2>
+          </div>
+        </section>
 
+        <div className="flex flex-col gap-6 xl:flex-row text-dark-700">
+        <CustomFormField
+            fieldType={FormFieldType.SELECT}
+            control={form.control}
+            name="identificationType"
+            label="Identification Type"
+            placeholder="Select ID Type"
+          >           
+            {(IdentificationTypes.map((type, i) => (
+              <SelectItem 
+              key={type} 
+              value={type}
+              >
+                
+              </SelectItem>
+            )))}
+            
+          </CustomFormField>
+        </div>
+
+        <div className="flex flex-col gap-6  text-dark-700">
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="identificationNumber"
+            label="Identification Number"
+            placeholder="1234567890"
+          />
+
+<CustomFormField
+            fieldType={FormFieldType.SKELETON}
+            control={form.control}
+            name="identificationDocument"
+            label="Upload Identification Document"
+            renderSkeleton={(field) => (
+            <FormControl>
+              <FileUploader
+              files={field.value}
+              onChange={field.onChange}
+              ></FileUploader>
+            </FormControl>
+              
+            )}
+          />
+        </div>
+
+        <section className="space-y-6 text-dark-700">
+          <div className="mb-9 space-y-1">
+            <h2 className="sub-header">Consent and Privacy</h2>
+          </div>
+        </section>
+
+        <CustomFormField 
+        fieldType={FormFieldType.CHECKBOX}
+        control={form.control}
+        name="treatmentConsent"
+        label="I consent to treatment"
+        />
+        <CustomFormField 
+        fieldType={FormFieldType.CHECKBOX}
+        control={form.control}
+        name="disclosureConsent"
+        label="I consent to the disclosure of my medical information"
+        />
+        <CustomFormField 
+        fieldType={FormFieldType.CHECKBOX}
+        control={form.control}
+        name="privacyConsent"
+        label="I consent to the privacy policy"
+        />
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
     </Form>
