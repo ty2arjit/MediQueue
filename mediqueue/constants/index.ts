@@ -1,4 +1,4 @@
-export const GenderOptions = ["Male", "Female", "Other"];
+export const GenderOptions = ["male", "female", "other"];
 
 export const PatientFormDefaultValues = {
   firstName: "",
@@ -6,7 +6,7 @@ export const PatientFormDefaultValues = {
   email: "",
   phone: "",
   birthDate: new Date(Date.now()),
-  gender: "Male" as Gender,
+  gender: "male" as Gender,
   address: "",
   occupation: "",
   emergencyContactName: "",
@@ -77,7 +77,7 @@ export const Doctors = [
     image: "/assets/images/dr-sharma.png",
     name: "Hardik Sharma",
   },
-];
+] as const;
 
 export const StatusIcon = {
   scheduled: "/assets/icons/check.svg",
