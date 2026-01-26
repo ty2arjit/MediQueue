@@ -48,7 +48,7 @@ export function RegisterForm({ user }: { user: User }) {
       const user = await createUser(userData);
 
       if (user) {
-        router.push(`/patients/${user.$id}/register`);
+        router.push(`/patients/${user.$id}/new-appointment`);
       }
     } catch (error) {
       console.log("Error submitting form: ", error);
@@ -194,7 +194,8 @@ export function RegisterForm({ user }: { user: User }) {
             label="Primary Physician"
             placeholder="Select a Physician"
           >           
-            {(Doctors.map((doctor, i) => (
+            {
+            (Doctors.map((doctor, i) => (
               <SelectItem key={doctor.name + i} value={doctor.name}>
                 <div className="flex cursor-pointer items-center gap-2 text-emerald-50">
                   <Image
@@ -208,7 +209,6 @@ export function RegisterForm({ user }: { user: User }) {
                 </div>
               </SelectItem>
             )))}
-            
           </CustomFormField>
         </div>
 
@@ -318,7 +318,7 @@ export function RegisterForm({ user }: { user: User }) {
           />
         </div>
 
-        <section className="space-y-6 text-dark-700">
+        {/* <section className="space-y-6 text-dark-700">
           <div className="mb-9 space-y-1">
             <h2 className="sub-header">Consent and Privacy</h2>
           </div>
@@ -341,7 +341,7 @@ export function RegisterForm({ user }: { user: User }) {
         control={form.control}
         name="privacyConsent"
         label="I consent to the privacy policy"
-        />
+        /> */}
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
     </Form>
