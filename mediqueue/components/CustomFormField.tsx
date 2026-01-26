@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
@@ -25,10 +25,11 @@ import {
   SelectTrigger,
   SelectValue,
   SelectLabel,
-  SelectGroup
+  SelectGroup,
 } from "@radix-ui/react-select";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "@radix-ui/react-checkbox";
+import { Label } from "./ui/label";
 
 interface CustomProps {
   control: Control<any>;
@@ -46,6 +47,7 @@ interface CustomProps {
 }
 
 const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
+  const [checked, setChecked] = useState(false);
   const {
     fieldType,
     iconSrc,
@@ -82,14 +84,13 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
     case FormFieldType.TEXTAREA:
       return (
         <FormControl>
-        <Textarea
-          placeholder={placeholder}
-          {...field}
-          className="shad-textarea"
-          disabled={props.disabled}
-        >
-        </Textarea>
-      </FormControl>
+          <Textarea
+            placeholder={placeholder}
+            {...field}
+            className="shad-textarea"
+            disabled={props.disabled}
+          ></Textarea>
+        </FormControl>
       );
 
     case FormFieldType.PHONE_INPUT:
@@ -137,34 +138,42 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
     case FormFieldType.SELECT:
       return (
         <FormControl>
-          <Select onValueChange={field.onChange} value={field.value}>
-              <SelectTrigger className="shad-select-trigger">
-                <SelectValue placeholder={props.placeholder} />
-              </SelectTrigger>
-            <SelectContent className="shad-select-content">
+          <Select 
+          value={field.value}
+          onValueChange={(v) => {
+            console.log("SELECTED doctor:", v);
+            field.onChange(v);
+            console.log(field);
+          }}>
+            <SelectTrigger className="shad-select-trigger text-dark-600">
+              <SelectValue placeholder={props.placeholder} />
+            </SelectTrigger>
+            <SelectContent
+              position="popper"
+              side="bottom"
+              className="shad-select-content"
+            >
               {props.children}
             </SelectContent>
           </Select>
         </FormControl>
       );
-    
+
     case FormFieldType.CHECKBOX:
       return (
         <FormControl>
-          <div
-          className="flex items-center gap-4 text-dark-700"
-          >
+          <div className="flex items-center gap-4 text-dark-700">
             <Checkbox
-            id={props.name}
-            checked={field.value}
-            onCheckedChange={field.onChange}
+              id={props.name}
+              checked={checked}
+              onCheckedChange={() => setChecked(!checked)}
             ></Checkbox>
-            <label
-            htmlFor={props.name}
-            className="checkbox-label text-dark-700"
+            <Label
+              htmlFor={props.name}
+              className="checkbox-label text-dark-700"
             >
               {props.label}
-            </label>
+            </Label>
           </div>
         </FormControl>
       );
