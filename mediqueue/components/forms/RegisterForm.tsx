@@ -186,32 +186,6 @@ export function RegisterForm({ user }: { user: User }) {
           </div>
         </section>
 
-        <div className="flex flex-col gap-6 xl:flex-row text-dark-700">
-        <CustomFormField
-            fieldType={FormFieldType.SELECT}
-            control={form.control}
-            name="primaryPhysician"
-            label="Primary Physician"
-            placeholder="Select a Physician"
-          >           
-            {
-            (Doctors.map((doctor, i) => (
-              <SelectItem key={doctor.name + i} value={doctor.name}>
-                <div className="flex cursor-pointer items-center gap-2 text-emerald-50">
-                  <Image
-                    src={doctor.image}
-                    width={32}
-                    height={32}
-                    alt="doctor"
-                    className="rounded-full border border-dark-500"
-                  />
-                  <p>{doctor.name}</p>
-                </div>
-              </SelectItem>
-            )))}
-          </CustomFormField>
-        </div>
-
         <div className="flex flex-col gap-6 xl:flex-row  text-dark-700">
           <CustomFormField
             fieldType={FormFieldType.INPUT}
