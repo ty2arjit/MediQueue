@@ -154,10 +154,10 @@ export default function AppointmentForm({
                 control={form.control}
                 name="identificationType"
                 label="Identification Type"
-                placeholder="Select ID Type"
+                placeholder="Select ID Type"  
               >
                 {IdentificationTypes.map((type, i) => (
-                  <SelectItem key={type} value={type}>
+                  <SelectItem key={type} value={type ?? ""}>
                     <div className="flex cursor-pointer items-center gap-2 text-emerald-50">
                       {type}
                     </div>
