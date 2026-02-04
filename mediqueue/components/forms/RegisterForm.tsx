@@ -24,7 +24,6 @@ export function RegisterForm({ user }: { user: User }) {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isdoctorDropDownOpen, setIsDoctorDropDownOpen] = useState(false);
 
   const form = useForm<z.infer<typeof UserFormValidation>>({
     resolver: zodResolver(UserFormValidation),
