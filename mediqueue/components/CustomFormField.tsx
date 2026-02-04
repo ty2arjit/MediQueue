@@ -139,7 +139,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
       return (
         <FormControl>
           <Select 
-          value={field.value}
+          value={field.value || ""}
           onValueChange={(v) => {
             console.log("SELECTED doctor:", v);
             field.onChange(v);
