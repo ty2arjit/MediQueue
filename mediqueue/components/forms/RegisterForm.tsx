@@ -272,25 +272,7 @@ export function RegisterForm({ user }: { user: User }) {
           </div>
         </section>
 
-        <div className="flex flex-col gap-6 xl:flex-row text-dark-700">
-        <CustomFormField
-            fieldType={FormFieldType.SELECT}
-            control={form.control}
-            name="identificationType"
-            label="Identification Type"
-            placeholder="Select ID Type"
-          >           
-            {(IdentificationTypes.map((type, i) => (
-              <SelectItem 
-              key={type} 
-              value={type}
-              >
-                
-              </SelectItem>
-            )))}
-            
-          </CustomFormField>
-        </div>
+        
 
         <div className="flex flex-col gap-6  text-dark-700">
           <CustomFormField
