@@ -9,18 +9,22 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import CustomFormField from "@/components/CustomFormField";
 import SubmitButton from "../SubmitButton";
-import { UserFormValidation, CreateAppointmentSchema, getAppointmentSchema } from "@/lib/validation";
+import {
+  UserFormValidation,
+  CreateAppointmentSchema,
+  getAppointmentSchema,
+} from "@/lib/validation";
 import { createUser } from "@/lib/actions/patient.actions";
 import { FormFieldType } from "./PateintForm";
 import Image from "next/image";
 import { SelectItem } from "@/components/ui/select";
-import { Doctors } from "@/constants/index";
+import { Doctors, IdentificationTypes } from "@/constants/index";
 import { createAppointment } from "@/lib/actions/appointment.action";
 
 export default function AppointmentForm({
   userId,
   patientId,
-  type="create",
+  type = "create",
 }: {
   userId: string;
   patientId: string;
@@ -43,25 +47,25 @@ export default function AppointmentForm({
     },
   });
 
-  async function onSubmit(values : z.infer<typeof AppointmentFormValidation>) {
+  async function onSubmit(values: z.infer<typeof AppointmentFormValidation>) {
     setIsLoading(true);
 
     let status;
 
     switch (type) {
-      case 'schedule':
-        status = 'scheduled';
+      case "schedule":
+        status = "scheduled";
         break;
-      case 'cancel':
-        status = 'cancelled';
+      case "cancel":
+        status = "cancelled";
         break;
       default:
-        status = 'pending';
+        status = "pending";
         break;
     }
 
     try {
-      if ( type === 'create' && patientId ) {
+      if (type === "create" && patientId) {
         const appointmentData = {
           userId,
           patient: patientId,
@@ -70,12 +74,14 @@ export default function AppointmentForm({
           reason: values.reason!,
           note: values.note,
           status: status as Status,
-        }
+        };
         const appointment = await createAppointment(appointmentData);
 
-        if (appointment ) {
+        if (appointment) {
           form.reset();
-          router.push(`/patients/${userId}/new-appointment/success?appointmentId=${appointment.id}`);
+          router.push(
+            `/patients/${userId}/new-appointment/success?appointmentId=${appointment.id}`
+          );
         }
       }
     } catch (error) {
@@ -86,21 +92,21 @@ export default function AppointmentForm({
   let buttonLabel;
 
   switch (type) {
-    case "cancel" :
+    case "cancel":
       buttonLabel = "Cancel Appointment";
       break;
-    case "create" :
+    case "create":
       buttonLabel = "Request Appointment";
       break;
-    case "schedule" :
+    case "schedule":
       buttonLabel = "Schedule Appointment";
       break;
-    default : 
+    default:
       break;
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1 mt-[5%] mr-[15%] max-w-[70%] ml-[5%]">
         <section className="mb-12 space-y-4">
           <h1>New Appointment</h1>
           <p className="text-dark-700">
@@ -132,6 +138,7 @@ export default function AppointmentForm({
                 </SelectItem>
               ))}
             </CustomFormField>
+
             <CustomFormField
               fieldType={FormFieldType.DATE_PICKER}
               control={form.control}
@@ -140,6 +147,24 @@ export default function AppointmentForm({
               showTimeSelect
               dateFormat="MM/dd/yyyy - h:mm aa"
             />
+
+            <div className="flex flex-col gap-6 xl:flex-row text-dark-700">
+              <CustomFormField
+                fieldType={FormFieldType.SELECT}
+                control={form.control}
+                name="identificationType"
+                label="Identification Type"
+                placeholder="Select ID Type"
+              >
+                {IdentificationTypes.map((type, i) => (
+                  <SelectItem key={type} value={type}>
+                    <div className="flex cursor-pointer items-center gap-2 text-emerald-50">
+                      {type}
+                    </div>
+                  </SelectItem>
+                ))}
+              </CustomFormField>
+            </div>
 
             <div className="flex flex-col gap-6 xl:flex-row">
               <CustomFormField
@@ -160,21 +185,24 @@ export default function AppointmentForm({
           </>
         )}
 
-        {
-          type === "cancel" && (
-            <CustomFormField
-              fieldType={FormFieldType.TEXTAREA}
-              control={form.control}
-              name="cancellationReason"
-              label="Reason for Cancellation"
-              placeholder="Please provide a reason for cancelling the appointment"
-            />
-          )
-        }
+        {type === "cancel" && (
+          <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="cancellationReason"
+            label="Reason for Cancellation"
+            placeholder="Please provide a reason for cancelling the appointment"
+          />
+        )}
 
-        <SubmitButton isLoading={isLoading} className={`${ type === 'cancel' 
-          ? 'shad-danger-btn' : 'shad-primary-btn'
-        } w-full `}>{buttonLabel}</SubmitButton>
+        <SubmitButton
+          isLoading={isLoading}
+          className={`${
+            type === "cancel" ? "shad-danger-btn" : "shad-primary-btn"
+          } w-full `}
+        >
+          {buttonLabel}
+        </SubmitButton>
       </form>
     </Form>
   );
@@ -182,4 +210,3 @@ export default function AppointmentForm({
 function CreateAppointment(appointmentData: any) {
   throw new Error("Function not implemented.");
 }
-
