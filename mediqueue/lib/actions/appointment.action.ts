@@ -4,6 +4,16 @@ import { APPOINTMENT_COLLECTION_ID, databases, DATABASE_ID, PATIENT_COLLECTION_I
 import { ID } from "node-appwrite";
 import { parseStringify } from "../utils";
 
+interface CreateAppointmentParams {
+  userId: string;
+  patient: string;
+  primaryPhysician: string;
+  schedule: Date;
+  reason: string;
+  note?: string;
+  status: string;
+}
+
 export const createAppointment = async ( appointment: CreateAppointmentParams ) => {
   try {
     const newAppointment = await databases.createDocument(
