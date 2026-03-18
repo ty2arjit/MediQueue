@@ -159,6 +159,29 @@ export function RegisterForm({ user }: { user: User }) {
           />
         </div>
 
+        <CustomFormField
+              fieldType={FormFieldType.SELECT}
+              control={form.control}
+              name="primaryPhysician"
+              label="Doctor"
+              placeholder="Select a Doctor"
+            >
+              {Doctors.map((doctor, i) => (
+                <SelectItem key={doctor.name + i} value={doctor.name}>
+                  <div className="flex cursor-pointer items-center gap-2 text-emerald-50">
+                    <Image
+                      src={doctor.image}
+                      width={32}
+                      height={32}
+                      alt="doctor"
+                      className="rounded-full border border-dark-500"
+                    />
+                    <p>{doctor.name}</p>
+                  </div>
+                </SelectItem>
+              ))}
+            </CustomFormField>
+
         <div className="flex flex-col gap-6 xl:flex-row text-dark-700">
 
         <CustomFormField
@@ -273,12 +296,13 @@ export function RegisterForm({ user }: { user: User }) {
           />
         </div>
 
-        {/* <section className="space-y-6 text-dark-700">
+        <section className="space-y-6 text-dark-700">
           <div className="mb-9 space-y-1">
             <h2 className="sub-header">Consent and Privacy</h2>
           </div>
         </section>
 
+        {/* <div className="bg-white">
         <CustomFormField 
         fieldType={FormFieldType.CHECKBOX}
         control={form.control}
@@ -296,7 +320,10 @@ export function RegisterForm({ user }: { user: User }) {
         control={form.control}
         name="privacyConsent"
         label="I consent to the privacy policy"
-        /> */}
+        />
+        </div> */}
+
+        
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
     </Form>
