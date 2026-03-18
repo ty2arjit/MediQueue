@@ -33,6 +33,8 @@ export default function AppointmentForm({
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [buttonLabel, setButtonLabel] = useState("create");
+  
 
   const AppointmentFormValidation = getAppointmentSchema(type);
 
@@ -65,6 +67,8 @@ export default function AppointmentForm({
     }
 
     try {
+
+    console.log(patientId, "I am here");
       if (type === "create" && patientId) {
         const appointmentData = {
           userId,
@@ -80,7 +84,7 @@ export default function AppointmentForm({
         if (appointment) {
           form.reset();
           router.push(
-            `/patients/${userId}/new-appointment/success?appointmentId=${appointment.id}`
+            `/patients/${userId}/new-appointment/success?appointmentId=${appointment.$id}`
           );
         }
       }
@@ -89,21 +93,6 @@ export default function AppointmentForm({
     }
   }
 
-  let buttonLabel;
-
-  switch (type) {
-    case "cancel":
-      buttonLabel = "Cancel Appointment";
-      break;
-    case "create":
-      buttonLabel = "Request Appointment";
-      break;
-    case "schedule":
-      buttonLabel = "Schedule Appointment";
-      break;
-    default:
-      break;
-  }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1 mt-[5%] mr-[15%] max-w-[70%] ml-[5%]">
